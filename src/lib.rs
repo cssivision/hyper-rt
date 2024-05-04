@@ -151,15 +151,15 @@ where
         cx: &mut Context<'_>,
         buf: &[u8],
     ) -> Poll<io::Result<usize>> {
-        hyper::rt::Write::poll_write(self.project().inner, cx, buf)
+        self.project().inner.poll_write(cx, buf)
     }
 
     fn poll_flush(self: Pin<&mut Self>, cx: &mut Context<'_>) -> Poll<io::Result<()>> {
-        hyper::rt::Write::poll_flush(self.project().inner, cx)
+        self.project().inner.poll_flush(cx)
     }
 
     fn poll_close(self: Pin<&mut Self>, cx: &mut Context<'_>) -> Poll<io::Result<()>> {
-        hyper::rt::Write::poll_shutdown(self.project().inner, cx)
+        self.project().inner.poll_shutdown(cx)
     }
 
     fn poll_write_vectored(
@@ -167,7 +167,7 @@ where
         cx: &mut Context<'_>,
         bufs: &[io::IoSlice<'_>],
     ) -> Poll<Result<usize, io::Error>> {
-        hyper::rt::Write::poll_write_vectored(self.project().inner, cx, bufs)
+        self.project().inner.poll_write_vectored(cx, bufs)
     }
 }
 
